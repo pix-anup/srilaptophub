@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>एडमिन पैनल - लैपटॉप मैनेजमेंट</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gray-100 p-6">
+
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold text-center text-blue-700 mb-8">💻 लैपटॉप शॉप - एडमिन पैनल</h1>
+
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h2 class="text-xl font-semibold mb-4 text-gray-700">नया लैपटॉप जोड़ें</h2>
+            <form id="laptopForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input type="text" id="laptopName" placeholder="लैपटॉप का नाम (e.g. HP Pavilion 15)" class="border p-2 rounded" required>
+                <input type="text" id="laptopPrice" placeholder="कीमत (e.g. 45000)" class="border p-2 rounded" required>
+                <input type="text" id="laptopSpecs" placeholder="कॉन्फ़िगरेशन (e.g. i5, 8GB RAM, 512GB SSD)" class="border p-2 rounded" required>
+                <input type="text" id="laptopImage" placeholder="इमेज लिंक (अभी कोई भी सैंपल लिंक डाल सकते हैं)" class="border p-2 rounded">
+                <button type="submit" class="bg-green-600 text-white p-2 rounded font-bold hover:bg-green-700 md:col-span-2">लैपटॉप लिस्ट करें</button>
+            </form>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-xl font-semibold mb-4 text-gray-700">दुकान में उपलब्ध लैपटॉप्स</h2>
+            <div id="adminLaptopList" class="space-y-4">
+                <p class="text-gray-500">चेक कर रहे हैं...</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // 🔑 अपनी तीसरी फोटो वाला कोड यहाँ ध्यान से भरें
+        const firebaseConfig = {
+            apiKey: "AIzaSyCt5HjbONwOZJ0q4yPgsqkYjep03cdwZO",
+            authDomain: "srilaptophub.firebaseapp.com",
+            projectId: "srilaptophub",
+            storageBucket: "srilaptophub.firebasestorage.app",
+            messagingSenderId: "844461823515",
+            appId: "1:844461823515:web:f56f711a74b360f6618abe",
+            measurementId: "G-3Z1CD5QDVG"
+        };
+
+        // फायरबेस को चालू करना
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // डेटाबेस में नया लैपटॉप जोड़ने का लॉजिक
+        const form = document.getElementById('laptopForm');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('laptopName').value;
+            const price = document.getElementById('laptopPrice').value;
+            const specs = document.getElementById('laptopSpecs').value;
+            const image = document.getElementById('laptopImage').value || "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=500"; // डिफॉल्ट लैपटॉप इमेज अगर खाली छोड़ा तो
+
+            try {
+                await addDoc(collection(db, "laptops"), {
+                    name: name,
+                    price: price,
+                    specs: specs,
+                    image: image,
+                    date: new Date()
+                });
+                alert("बधाई हो! लैपटॉप सफलतापूर्वक लिस्ट हो गया।");
+                form.reset();
+            } catch (error) {
+                console.error("Error adding document: ", error);
+            }
+        });
+
+        // डेटाबेस से लाइव लैपटॉप लिस्ट दिखाना और डिलीट बटन का काम
+        const listContainer = document.getElementById('adminLaptopList');
+        
+        onSnapshot(collection(db, "laptops"), (snapshot) => {
+            listContainer.innerHTML = "";
+            if(snapshot.size === 0) {
+                listContainer.innerHTML = `<p class="text-gray-500">दुकान में अभी कोई लैपटॉप नहीं है। ऊपर फॉर्म से जोड़ें।</p>`;
+                return;
+            }
+
+            snapshot.forEach((docData) => {
+                const laptop = docData.data();
+                const id = docData.id;
+
+                const itemHtml = `
+                    <div class="flex justify-between items-center bg-gray-50 p-4 rounded border">
+                        <div>
+                            <h3 class="font-bold text-lg text-gray-800">${laptop.name}</h3>
+                            <p class="text-sm text-gray-600">${laptop.specs} — <span class="text-green-600 font-bold">₹${laptop.price}</span></p>
+                        </div>
+                        <button onclick="deleteLaptop('${id}')" class="bg-red-500 text-white px-3 py-1 rounded text-sm font-semibold hover:bg-red-600">Remove (बिक गया)</button>
+                    </div>
+                `;
+                listContainer.innerHTML += itemHtml;
+            });
+        });
+
+        // डिलीट करने का फंक्शन विंडो स्कोप में डालना ताकि बटन क्लिक काम करे
+        window.deleteLaptop = async (id) => {
+            if(confirm("क्या यह लैपटॉप सच में बिक गया है और आप इसे हटाना चाहते हैं?")) {
+                await deleteDoc(doc(db, "laptops", id));
+            }
+        }
+    </script>
+</body>
+</html>

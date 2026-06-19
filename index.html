@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>श्री लैपटॉप हब - बेस्ट डील्स</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+
+    <header class="bg-blue-700 text-white p-6 shadow-lg text-center">
+        <h1 class="text-3xl font-bold">💻 Sri Laptop Hub</h1>
+        <p class="text-sm mt-2 opacity-90">सबसे बेहतरीन और सस्ते लैपटॉप्स, सीधे आपके बजट में!</p>
+    </header>
+
+    <main class="container mx-auto p-6">
+        <h2 class="text-2xl font-semibold mb-6 text-gray-800 border-b pb-2 border-gray-300">हमारे उपलब्ध लैपटॉप्स</h2>
+        
+        <div id="customerLaptopList" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <p class="text-gray-500 col-span-3 text-center py-10 text-lg">स्टॉक चेक किया जा रहा है, कृपया प्रतीक्षा करें...</p>
+        </div>
+    </main>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // 🔑 आपकी फायरबेस की सीक्रेट चाबी (Config)
+        const firebaseConfig = {
+            apiKey: "AIzaSyCt5HjbONwOZJ0q4yPgsqkYjep03cdwZO",
+            authDomain: "srilaptophub.firebaseapp.com",
+            projectId: "srilaptophub",
+            storageBucket: "srilaptophub.firebasestorage.app",
+            messagingSenderId: "844461823515",
+            appId: "1:844461823515:web:f56f711a74b360f6618abe",
+            measurementId: "G-3Z1CD5QDVG"
+        };
+
+        // फायरबेस चालू करना
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const customerListContainer = document.getElementById('customerLaptopList');
+        
+        // डेटाबेस से लाइव लैपटॉप्स की जानकारी खींचना
+        onSnapshot(collection(db, "laptops"), (snapshot) => {
+            customerListContainer.innerHTML = "";
+            
+            if(snapshot.size === 0) {
+                customerListContainer.innerHTML = `
+                    <div class="col-span-3 text-center py-10 bg-white rounded shadow p-6">
+                        <p class="text-xl text-gray-600 font-semibold">😔 क्षमा करें! अभी सारा स्टॉक बिक चुका है।</p>
+                        <p class="text-sm text-gray-400 mt-1">जल्द ही नए लैपटॉप्स जोड़े जाएंगे।</p>
+                    </div>
+                `;
+                return;
+            }
+
+            snapshot.forEach((docData) => {
+                const laptop = docData.data();
+
+                const cardHtml = `
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition duration-300 border border-gray-200">
+                        <img class="h-48 w-full object-cover" src="${laptop.image}" alt="${laptop.name}">
+                        <div class="p-5">
+                            <div class="uppercase tracking-wide text-sm text-blue-600 font-bold">स्टॉक में है</div>
+                            <h3 class="block mt-1 text-xl leading-tight font-semibold text-black">${laptop.name}</h3>
+                            <p class="mt-2 text-gray-600 text-sm bg-gray-100 p-2 rounded">${laptop.specs}</p>
+                            <div class="mt-4 flex items-center justify-between">
+                                <span class="text-2xl font-bold text-green-600">₹${Number(laptop.price).toLocaleString('en-IN')}</span>
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium text-sm hover:bg-blue-700">अभी खरीदें</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                customerListContainer.innerHTML += cardHtml;
+            });
+        });
+    </script>
+</body>
+</html>
