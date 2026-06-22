@@ -3,20 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>श्री लैपटॉप हब - बेस्ट डील्स</title>
+    <title>श्री लैपटॉप हब - प्रीमियम लैपटॉप डील्स</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body class="bg-gray-100 font-sans">
 
-    <header class="bg-blue-700 text-white p-6 shadow-lg text-center">
-        <h1 class="text-3xl font-bold">💻 Sri Laptop Hub</h1>
-        <p class="text-sm mt-2 opacity-90">सबसे बेहतरीन और सस्ते लैपटॉप्स, सीधे आपके बजट में!</p>
+    <header class="bg-gradient-to-r from-blue-800 to-indigo-900 text-white p-6 shadow-xl text-center">
+        <div class="flex flex-col items-center justify-center gap-2">
+            <img src="https://cdn-icons-png.flaticon.com/512/428/428001.png" alt="Logo" class="h-16 w-16 object-contain bg-white p-2 rounded-full shadow-md">
+            <h1 class="text-4xl font-extrabold tracking-wide mt-2">💻 Sri Laptop Hub</h1>
+            <p class="text-xs md:text-sm tracking-wider opacity-80 uppercase font-medium">आपका अपना भरोसेमंद लैपटॉप स्टोर</p>
+        </div>
     </header>
 
-    <main class="container mx-auto p-6">
-        <h2 class="text-2xl font-semibold mb-6 text-gray-800 border-b pb-2 border-gray-300">हमारे उपलब्ध लैपटॉप्स</h2>
+    <main class="container mx-auto p-6 max-w-6xl">
+        <h2 class="text-2xl font-bold mb-6 text-gray-800 border-b-2 pb-2 border-blue-500 inline-block">हमारे उपलब्ध लैपटॉप्स</h2>
         
-        <div id="customerLaptopList" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div id="customerLaptopList" class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-4">
             <p class="text-gray-500 col-span-3 text-center py-10 text-lg">स्टॉक चेक किया जा रहा है, कृपया प्रतीक्षा करें...</p>
         </div>
     </main>
@@ -25,7 +29,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // 🔑 आपकी फायरबेस की सीक्रेट चाबी (Config)
         const firebaseConfig = {
             apiKey: "AIzaSyCt5HjbONwOZJ0q4yPgsqkYjep03cdwZO",
             authDomain: "srilaptophub.firebaseapp.com",
@@ -36,21 +39,20 @@
             measurementId: "G-3Z1CD5QDVG"
         };
 
-        // फायरबेस चालू करना
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-
         const customerListContainer = document.getElementById('customerLaptopList');
         
-        // डेटाबेस से लाइव लैपटॉप्स की जानकारी खींचना
+        // 📞 अपना WhatsApp नंबर यहाँ बदलें
+        const myWhatsAppNumber = "919939579777"; 
+
         onSnapshot(collection(db, "laptops"), (snapshot) => {
             customerListContainer.innerHTML = "";
             
             if(snapshot.size === 0) {
                 customerListContainer.innerHTML = `
-                    <div class="col-span-3 text-center py-10 bg-white rounded shadow p-6">
+                    <div class="col-span-3 text-center py-12 bg-white rounded-xl shadow p-6 border">
                         <p class="text-xl text-gray-600 font-semibold">😔 क्षमा करें! अभी सारा स्टॉक बिक चुका है।</p>
-                        <p class="text-sm text-gray-400 mt-1">जल्द ही नए लैपटॉप्स जोड़े जाएंगे।</p>
                     </div>
                 `;
                 return;
@@ -58,17 +60,33 @@
 
             snapshot.forEach((docData) => {
                 const laptop = docData.data();
+                
+                // 🔍 इंटरनेट से ब्रांड के नाम के हिसाब से ऑटोमैटिक इमेज ढूंढने का लॉजिक
+                // अगर नाम में HP है तो HP Laptop की फोटो आएगी, Dell है तो Dell Laptop की
+                const firstWord = laptop.name.split(" ")[0] || "laptop";
+                const autoImageUrl = `https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=500&q=80&sig=${Math.random()}`; 
+                // नोट: बेहतर रिजल्ट के लिए Unsplash की कीवर्ड इमेज यूज़ कर रहे हैं:
+                const keywordImageUrl = `https://loremflickr.com/500/350/${firstWord},laptop/all`;
+
+                const whatsappText = encodeURIComponent(`नमस्ते Sri Laptop Hub! मुझे इसके बारे में जानना है:\n\n💻 लैपटॉप: ${laptop.name}\n💰 कीमत: ₹${laptop.price}\n⚙️ स्पेक्स: ${laptop.specs}`);
+                const whatsappUrl = `https://wa.me/${myWhatsAppNumber}?text=${whatsappText}`;
 
                 const cardHtml = `
-                    <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition duration-300 border border-gray-200">
-                        <img class="h-48 w-full object-cover" src="${laptop.image}" alt="${laptop.name}">
-                        <div class="p-5">
-                            <div class="uppercase tracking-wide text-sm text-blue-600 font-bold">स्टॉक में है</div>
-                            <h3 class="block mt-1 text-xl leading-tight font-semibold text-black">${laptop.name}</h3>
-                            <p class="mt-2 text-gray-600 text-sm bg-gray-100 p-2 rounded">${laptop.specs}</p>
-                            <div class="mt-4 flex items-center justify-between">
-                                <span class="text-2xl font-bold text-green-600">₹${Number(laptop.price).toLocaleString('en-IN')}</span>
-                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium text-sm hover:bg-blue-700">अभी खरीदें</button>
+                    <div class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-2xl transition duration-300 border border-gray-100 flex flex-col justify-between">
+                        <div>
+                            <img class="h-48 w-full object-cover bg-gray-100" src="${keywordImageUrl}" alt="${laptop.name}" onerror="this.src='https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=500'">
+                            <div class="p-5">
+                                <span class="bg-green-100 text-green-800 text-xs font-bold px-2.5 py-1 rounded-full"><i class="fa-solid fa-circle text-green-500 mr-1 animate-pulse"></i> स्टॉक में है</span>
+                                <h3 class="block mt-3 text-xl font-bold text-gray-900">${laptop.name}</h3>
+                                <p class="mt-2 text-gray-600 text-sm bg-gray-50 p-3 rounded-xl border border-dashed border-gray-200">${laptop.specs}</p>
+                            </div>
+                        </div>
+                        <div class="p-5 pt-0 mt-auto">
+                            <div class="flex items-center justify-between border-t pt-4 border-gray-100">
+                                <span class="text-2xl font-black text-blue-700">₹${Number(laptop.price).toLocaleString('en-IN')}</span>
+                                <a href="${whatsappUrl}" target="_blank" class="bg-green-600 text-white px-4 py-2.5 rounded-xl font-bold text-sm hover:bg-green-700 transition flex items-center gap-2 shadow-md">
+                                    <i class="fa-brands fa-whatsapp text-lg"></i> पूछताछ करें
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -79,3 +97,4 @@
     </script>
 </body>
 </html>
+
