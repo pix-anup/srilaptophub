@@ -8,92 +8,112 @@
 </head>
 <body class="bg-gray-100 p-6">
 
+    <!-- पासवर्ड गेटवे -->
     <div id="passwordGate" class="max-w-md mx-auto mt-20 bg-white p-8 rounded-2xl shadow-xl border text-center">
         <h2 class="text-2xl font-bold text-gray-800 mb-4">🔐 एडमिन लॉगिन</h2>
-        <input type="password" id="adminPasswordInput" placeholder="पासवर्ड यहाँ लिखें..." class="w-full border p-3 rounded-xl mb-4 text-center text-lg tracking-widest focus:outline-blue-500">
+        <input type="password" id="adminPasswordInput" placeholder="पासवर्ड..." class="w-full border p-3 rounded-xl mb-4 text-center tracking-widest focus:outline-blue-500">
         <button onclick="checkPassword()" class="w-full bg-blue-600 text-white p-3 rounded-xl font-bold hover:bg-blue-700 transition">लॉगिन करें</button>
         <p id="loginError" class="text-red-500 text-sm mt-3 hidden">❌ गलत पासवर्ड!</p>
     </div>
 
+    <!-- मुख्य डैशबोर्ड -->
     <div id="adminDashboard" class="max-w-4xl mx-auto hidden">
         <div class="flex justify-between items-center mb-8 bg-blue-900 p-4 rounded-xl shadow text-white">
             <h1 class="text-2xl font-bold">💻 Sri Laptop Hub - कंट्रोल रूम</h1>
             <button onclick="logout()" class="bg-red-500 hover:bg-red-600 px-3 py-1.5 rounded-lg text-xs font-bold transition">Log Out</button>
         </div>
 
+        <!-- फॉर्म -->
         <div class="bg-white p-6 rounded-2xl shadow-md mb-8 border">
-            <h2 class="text-lg font-bold mb-4 text-gray-700 border-b pb-2">➕ नया लैपटॉप स्टॉक में जोड़ें (मल्टी-इमेज के साथ)</h2>
+            <h2 class="text-lg font-bold mb-4 text-gray-700 border-b pb-2">➕ स्टॉक एंट्री (कस्टम विकल्प के साथ)</h2>
             <form id="laptopForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 
+                <!-- ब्रांड सिलेक्शन -->
                 <div class="flex flex-col">
-                    <label class="text-sm font-semibold text-gray-600 mb-1">कंपनी / ब्रांड चुनें</label>
-                    <select id="laptopBrand" class="border p-3 rounded-xl focus:outline-blue-500 bg-white" required>
+                    <label class="text-sm font-semibold text-gray-600 mb-1">कंपनी / ब्रांड</label>
+                    <select id="laptopBrand" class="border p-3 rounded-xl bg-white" required>
                         <option value="">-- ब्रांड चुनें --</option>
                         <option value="HP">HP</option>
                         <option value="Dell">Dell</option>
                         <option value="Lenovo">Lenovo</option>
                         <option value="Asus">Asus</option>
                         <option value="Acer">Acer</option>
-                        <option value="Apple">Apple (MacBook)</option>
+                        <option value="Apple">Apple</option>
                     </select>
                 </div>
 
+                <!-- मॉडल नाम -->
                 <div class="flex flex-col">
-                    <label class="text-sm font-semibold text-gray-600 mb-1">모델 का नाम</label>
-                    <input type="text" id="laptopModel" placeholder="e.g. Pavilion 15" class="border p-3 rounded-xl focus:outline-blue-500" required>
+                    <label class="text-sm font-semibold text-gray-600 mb-1">मॉडल नाम</label>
+                    <input type="text" id="laptopModel" placeholder="e.g. Pavilion 15" class="border p-3 rounded-xl" required>
                 </div>
 
+                <!-- रैम -->
                 <div class="flex flex-col">
                     <label class="text-sm font-semibold text-gray-600 mb-1">रैम (RAM)</label>
-                    <select id="laptopRam" class="border p-3 rounded-xl focus:outline-blue-500 bg-white" required>
-                        <option value="4GB RAM">4GB RAM</option>
-                        <option value="8GB RAM" selected>8GB RAM</option>
+                    <select id="laptopRam" onchange="toggleCustomInput('laptopRam', 'customRamDiv')" class="border p-3 rounded-xl bg-white" required>
+                        <option value="8GB RAM">8GB RAM</option>
                         <option value="16GB RAM">16GB RAM</option>
                         <option value="32GB RAM">32GB RAM</option>
+                        <option value="CUSTOM">-- कुछ अलग लिखें (Custom) --</option>
                     </select>
+                    <div id="customRamDiv" class="mt-2 hidden">
+                        <input type="text" id="customRam" placeholder="e.g. 12GB DDR5 RAM" class="border p-2 rounded-xl w-full">
+                    </div>
                 </div>
 
+                <!-- प्रोसेसर -->
                 <div class="flex flex-col">
                     <label class="text-sm font-semibold text-gray-600 mb-1">प्रोसेसर / जनरेशन</label>
-                    <select id="laptopGen" class="border p-3 rounded-xl focus:outline-blue-500 bg-white" required>
-                        <option value="Core i3 (11th Gen)">Core i3 (11th Gen)</option>
+                    <select id="laptopGen" onchange="toggleCustomInput('laptopGen', 'customGenDiv')" class="border p-3 rounded-xl bg-white" required>
                         <option value="Core i5 (11th Gen)">Core i5 (11th Gen)</option>
-                        <option value="Core i5 (12th Gen)" selected>Core i5 (12th Gen)</option>
+                        <option value="Core i5 (12th Gen)">Core i5 (12th Gen)</option>
                         <option value="Core i7 (12th Gen)">Core i7 (12th Gen)</option>
                         <option value="Ryzen 5 (5000 Series)">Ryzen 5 (5000 Series)</option>
-                        <option value="Apple M1 Chip">Apple M1 Chip</option>
+                        <option value="CUSTOM">-- कुछ अलग लिखें (Custom) --</option>
                     </select>
+                    <div id="customGenDiv" class="mt-2 hidden">
+                        <input type="text" id="customGen" placeholder="e.g. Core i9 (13th Gen) / Apple M3" class="border p-2 rounded-xl w-full">
+                    </div>
                 </div>
 
+                <!-- स्टोरेज -->
                 <div class="flex flex-col">
                     <label class="text-sm font-semibold text-gray-600 mb-1">स्टोरेज (Storage)</label>
-                    <select id="laptopStorage" class="border p-3 rounded-xl focus:outline-blue-500 bg-white" required>
+                    <select id="laptopStorage" onchange="toggleCustomInput('laptopStorage', 'customStorageDiv')" class="border p-3 rounded-xl bg-white" required>
                         <option value="256GB NVMe SSD">256GB NVMe SSD</option>
-                        <option value="512GB NVMe SSD" selected>512GB NVMe SSD</option>
+                        <option value="512GB NVMe SSD">512GB NVMe SSD</option>
                         <option value="1TB NVMe SSD">1TB NVMe SSD</option>
+                        <option value="CUSTOM">-- कुछ अलग लिखें (Custom) --</option>
                     </select>
+                    <div id="customStorageDiv" class="mt-2 hidden">
+                        <input type="text" id="customStorage" placeholder="e.g. 2TB NVMe SSD" class="border p-2 rounded-xl w-full">
+                    </div>
                 </div>
 
+                <!-- कीमत -->
                 <div class="flex flex-col">
-                    <label class="text-sm font-semibold text-gray-600 mb-1">कीमत (सिर्फ नंबर)</label>
-                    <input type="number" id="laptopPrice" placeholder="e.g. 45000" class="border p-3 rounded-xl focus:outline-blue-500" required>
+                    <label class="text-sm font-semibold text-gray-600 mb-1">कीमत</label>
+                    <input type="number" id="laptopPrice" placeholder="e.g. 45000" class="border p-3 rounded-xl" required>
                 </div>
 
-                <div class="flex flex-col md:col-span-2 border-t pt-4 mt-2">
-                    <label class="text-sm font-bold text-gray-700 mb-2">📸 लैपटॉप इमेजेस के डायरेक्ट लिंक (Postimages या ImgBB से लें)</label>
-                    <input type="text" id="laptopImage1" placeholder="इमेज लिंक 1 (मुख्य फोटो - ज़रूरी)" class="border p-3 rounded-xl focus:outline-blue-500 mb-2" required>
-                    <input type="text" id="laptopImage2" placeholder="इमेज लिंक 2 (वैकल्पिक / Optional)" class="border p-3 rounded-xl focus:outline-blue-500 mb-2">
-                    <input type="text" id="laptopImage3" placeholder="इमेज लिंक 3 (वैकल्पिक / Optional)" class="border p-3 rounded-xl focus:outline-blue-500">
+                <!-- इमेजेस -->
+                <div class="flex flex-col md:col-span-2 border-t pt-4">
+                    <label class="text-sm font-bold text-gray-700 mb-2">📸 लैपटॉप इमेज डायरेक्ट लिंक्स</label>
+                    <input type="text" id="laptopImage1" placeholder="मुख्य फोटो लिंक (ज़रूरी)" class="border p-3 rounded-xl mb-2" required>
+                    <input type="text" id="laptopImage2" placeholder="फोटो लिंक 2 (वैकल्पिक)" class="border p-3 rounded-xl mb-2">
+                    <input type="text" id="laptopImage3" placeholder="फोटो लिंक 3 (वैकल्पिक)" class="border p-3 rounded-xl">
                 </div>
                 
-                <button type="submit" class="bg-blue-600 text-white p-3 rounded-xl font-bold hover:bg-blue-700 transition md:col-span-2 shadow-lg mt-2">दुकान पर लाइव लिस्ट करें</button>
+                <button type="submit" class="bg-blue-600 text-white p-3 rounded-xl font-bold hover:bg-blue-700 transition md:col-span-2 shadow-lg">लाइव लिस्ट करें</button>
             </form>
         </div>
 
+        <!-- स्टॉक लिस्ट और डिलीट बटन -->
         <div class="bg-white p-6 rounded-2xl shadow-md border">
-            <h2 class="text-lg font-bold mb-4 text-gray-700 border-b pb-2">📦 वर्तमान स्टॉक और Management</h2>
+            <h2 class="text-lg font-bold mb-4 text-gray-700 border-b pb-2">📦 वर्तमान स्टॉक (हटाने के विकल्प के साथ)</h2>
             <div id="adminLaptopList" class="space-y-4 mt-4">
-                <p class="text-gray-500">स्टॉक लोड हो रहा है...</p>
+                <p class="text-gray-500">लोड हो रहा है...</p>
             </div>
         </div>
     </div>
@@ -117,25 +137,25 @@
         const SECRET_PASSWORD = "Sri@2026";
 
         window.checkPassword = () => {
-            const entered = document.getElementById('adminPasswordInput').value;
-            if(entered === SECRET_PASSWORD) {
+            if(document.getElementById('adminPasswordInput').value === SECRET_PASSWORD) {
                 document.getElementById('passwordGate').classList.add('hidden');
                 document.getElementById('adminDashboard').classList.remove('hidden');
                 localStorage.setItem('adminLoggedIn', 'true');
-            } else {
-                document.getElementById('loginError').classList.remove('hidden');
-            }
+            } else { document.getElementById('loginError').classList.remove('hidden'); }
         };
-
-        window.logout = () => {
-            localStorage.removeItem('adminLoggedIn');
-            location.reload();
-        };
-
+        window.logout = () => { localStorage.removeItem('adminLoggedIn'); location.reload(); };
         if(localStorage.getItem('adminLoggedIn') === 'true') {
             document.getElementById('passwordGate').classList.add('hidden');
             document.getElementById('adminDashboard').classList.remove('hidden');
         }
+
+        // कस्टम इनपुट बॉक्स दिखाने/छिपाने का लॉजिक
+        window.toggleCustomInput = (selectId, divId) => {
+            const selectEl = document.getElementById(selectId);
+            const divEl = document.getElementById(divId);
+            if(selectEl.value === "CUSTOM") { divEl.classList.remove('hidden'); }
+            else { divEl.classList.add('hidden'); }
+        };
 
         const form = document.getElementById('laptopForm');
         form.addEventListener('submit', async (e) => {
@@ -143,17 +163,21 @@
             
             const brand = document.getElementById('laptopBrand').value;
             const model = document.getElementById('laptopModel').value;
-            const ram = document.getElementById('laptopRam').value;
-            const gen = document.getElementById('laptopGen').value;
-            const storage = document.getElementById('laptopStorage').value;
             const price = document.getElementById('laptopPrice').value;
 
-            // तीनों इमेज लिंक्स को इकट्ठा करना
+            // कस्टम मूल्य हैंडलिंग
+            let ram = document.getElementById('laptopRam').value;
+            if(ram === "CUSTOM") ram = document.getElementById('customRam').value;
+
+            let gen = document.getElementById('laptopGen').value;
+            if(gen === "CUSTOM") gen = document.getElementById('customGen').value;
+
+            let storage = document.getElementById('laptopStorage').value;
+            if(storage === "CUSTOM") storage = document.getElementById('customStorage').value;
+
             const img1 = document.getElementById('laptopImage1').value;
             const img2 = document.getElementById('laptopImage2').value || "";
             const img3 = document.getElementById('laptopImage3').value || "";
-
-            // खाली लिंक्स को हटाकर सिर्फ वैलिड लिंक्स की एक एरे (Array) बनाना
             const imagesArray = [img1, img2, img3].filter(url => url.trim() !== "");
 
             try {
@@ -161,41 +185,42 @@
                     name: `${brand} ${model}`,
                     price: price,
                     specs: `${gen} | ${ram} | ${storage}`,
-                    images: imagesArray, // डेटाबेस में एरे के रूप में जाएगा
+                    images: imagesArray,
                     date: new Date()
                 });
-                alert("सफलतापूर्वक लिस्ट हो गया!");
+                alert("स्टॉक सफलतापूर्वक लाइव हो गया!");
                 form.reset();
-            } catch (error) {
-                alert("त्रुटि: " + error.message);
-            }
+                // कस्टम डिव्स छुपाएं
+                document.getElementById('customRamDiv').classList.add('hidden');
+                document.getElementById('customGenDiv').classList.add('hidden');
+                document.getElementById('customStorageDiv').classList.add('hidden');
+            } catch (error) { alert("त्रुटि: " + error.message); }
         });
 
         const listContainer = document.getElementById('adminLaptopList');
         onSnapshot(collection(db, "laptops"), (snapshot) => {
             listContainer.innerHTML = "";
             if(snapshot.size === 0) {
-                listContainer.innerHTML = `<p class="text-gray-500 p-4 text-center">दुकान में कोई लैपटॉप नहीं है।</p>`;
+                listContainer.innerHTML = `<p class="text-gray-500 text-center">स्टॉक खाली है।</p>`;
                 return;
             }
             snapshot.forEach((docData) => {
                 const laptop = docData.data();
                 const id = docData.id;
-
                 listContainer.innerHTML += `
                     <div class="flex justify-between items-center bg-gray-50 p-4 rounded-xl border">
                         <div>
                             <h3 class="font-bold text-gray-800">${laptop.name}</h3>
-                            <p class="text-xs text-gray-500">₹${Number(laptop.price).toLocaleString('en-IN')}</p>
+                            <p class="text-xs text-gray-500">${laptop.specs} — <span class="text-blue-600 font-bold">₹${Number(laptop.price).toLocaleString('en-IN')}</span></p>
                         </div>
-                        <button onclick="deleteLaptop('${id}')" class="bg-red-500 text-white px-4 py-1.5 rounded-xl text-xs font-bold hover:bg-red-600 transition">Delete</button>
+                        <button onclick="deleteLaptop('${id}')" class="bg-red-500 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-red-600 transition">Delete</button>
                     </div>
                 `;
             });
         });
 
         window.deleteLaptop = async (id) => {
-            if(confirm("क्या यह लैपटॉप स्टॉक से हटाना चाहते हैं?")) {
+            if(confirm("क्या आप इसे डिलीट करना चाहते हैं?")) {
                 await deleteDoc(doc(db, "laptops", id));
             }
         };
