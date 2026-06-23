@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>सुरक्षित एडमिन पैनल - श्री लैपटॉप हब</title>
+    <title>एडवांस्ड एडमिन पैनल - श्री लैपटॉप हब</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 <body class="bg-gray-100 p-6">
@@ -22,13 +22,71 @@
         </div>
 
         <div class="bg-white p-6 rounded-2xl shadow-md mb-8 border">
-            <h2 class="text-lg font-bold mb-4 text-gray-700 border-b pb-2">➕ नया लैपटॉप स्टॉक में जोड़ें</h2>
+            <h2 class="text-lg font-bold mb-4 text-gray-700 border-b pb-2">➕ नया लैपटॉप स्टॉक में जोड़ें (मल्टी-इमेज के साथ)</h2>
             <form id="laptopForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input type="text" id="laptopName" placeholder="लैपटॉप का नाम (e.g. HP Pavilion 15)" class="border p-3 rounded-xl focus:outline-blue-500" required>
-                <input type="number" id="laptopPrice" placeholder="कीमत सिर्फ नंबर्स में (e.g. 45000)" class="border p-3 rounded-xl focus:outline-blue-500" required>
-                <input type="text" id="laptopSpecs" placeholder="कॉन्फ़िगरेशन (e.g. i5, 8GB RAM, 512GB SSD)" class="border p-3 rounded-xl focus:outline-blue-500 md:col-span-2" required>
                 
-                <button type="submit" class="bg-blue-600 text-white p-3 rounded-xl font-bold hover:bg-blue-700 transition md:col-span-2 shadow-lg">दुकान पर लाइव लिस्ट करें</button>
+                <div class="flex flex-col">
+                    <label class="text-sm font-semibold text-gray-600 mb-1">कंपनी / ब्रांड चुनें</label>
+                    <select id="laptopBrand" class="border p-3 rounded-xl focus:outline-blue-500 bg-white" required>
+                        <option value="">-- ब्रांड चुनें --</option>
+                        <option value="HP">HP</option>
+                        <option value="Dell">Dell</option>
+                        <option value="Lenovo">Lenovo</option>
+                        <option value="Asus">Asus</option>
+                        <option value="Acer">Acer</option>
+                        <option value="Apple">Apple (MacBook)</option>
+                    </select>
+                </div>
+
+                <div class="flex flex-col">
+                    <label class="text-sm font-semibold text-gray-600 mb-1">모델 का नाम</label>
+                    <input type="text" id="laptopModel" placeholder="e.g. Pavilion 15" class="border p-3 rounded-xl focus:outline-blue-500" required>
+                </div>
+
+                <div class="flex flex-col">
+                    <label class="text-sm font-semibold text-gray-600 mb-1">रैम (RAM)</label>
+                    <select id="laptopRam" class="border p-3 rounded-xl focus:outline-blue-500 bg-white" required>
+                        <option value="4GB RAM">4GB RAM</option>
+                        <option value="8GB RAM" selected>8GB RAM</option>
+                        <option value="16GB RAM">16GB RAM</option>
+                        <option value="32GB RAM">32GB RAM</option>
+                    </select>
+                </div>
+
+                <div class="flex flex-col">
+                    <label class="text-sm font-semibold text-gray-600 mb-1">प्रोसेसर / जनरेशन</label>
+                    <select id="laptopGen" class="border p-3 rounded-xl focus:outline-blue-500 bg-white" required>
+                        <option value="Core i3 (11th Gen)">Core i3 (11th Gen)</option>
+                        <option value="Core i5 (11th Gen)">Core i5 (11th Gen)</option>
+                        <option value="Core i5 (12th Gen)" selected>Core i5 (12th Gen)</option>
+                        <option value="Core i7 (12th Gen)">Core i7 (12th Gen)</option>
+                        <option value="Ryzen 5 (5000 Series)">Ryzen 5 (5000 Series)</option>
+                        <option value="Apple M1 Chip">Apple M1 Chip</option>
+                    </select>
+                </div>
+
+                <div class="flex flex-col">
+                    <label class="text-sm font-semibold text-gray-600 mb-1">स्टोरेज (Storage)</label>
+                    <select id="laptopStorage" class="border p-3 rounded-xl focus:outline-blue-500 bg-white" required>
+                        <option value="256GB NVMe SSD">256GB NVMe SSD</option>
+                        <option value="512GB NVMe SSD" selected>512GB NVMe SSD</option>
+                        <option value="1TB NVMe SSD">1TB NVMe SSD</option>
+                    </select>
+                </div>
+
+                <div class="flex flex-col">
+                    <label class="text-sm font-semibold text-gray-600 mb-1">कीमत (सिर्फ नंबर)</label>
+                    <input type="number" id="laptopPrice" placeholder="e.g. 45000" class="border p-3 rounded-xl focus:outline-blue-500" required>
+                </div>
+
+                <div class="flex flex-col md:col-span-2 border-t pt-4 mt-2">
+                    <label class="text-sm font-bold text-gray-700 mb-2">📸 लैपटॉप इमेजेस के डायरेक्ट लिंक (Postimages या ImgBB से लें)</label>
+                    <input type="text" id="laptopImage1" placeholder="इमेज लिंक 1 (मुख्य फोटो - ज़रूरी)" class="border p-3 rounded-xl focus:outline-blue-500 mb-2" required>
+                    <input type="text" id="laptopImage2" placeholder="इमेज लिंक 2 (वैकल्पिक / Optional)" class="border p-3 rounded-xl focus:outline-blue-500 mb-2">
+                    <input type="text" id="laptopImage3" placeholder="इमेज लिंक 3 (वैकल्पिक / Optional)" class="border p-3 rounded-xl focus:outline-blue-500">
+                </div>
+                
+                <button type="submit" class="bg-blue-600 text-white p-3 rounded-xl font-bold hover:bg-blue-700 transition md:col-span-2 shadow-lg mt-2">दुकान पर लाइव लिस्ट करें</button>
             </form>
         </div>
 
@@ -56,8 +114,7 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-
-        const SECRET_PASSWORD = "Sri@123";
+        const SECRET_PASSWORD = "Sri@2026";
 
         window.checkPassword = () => {
             const entered = document.getElementById('adminPasswordInput').value;
@@ -83,15 +140,28 @@
         const form = document.getElementById('laptopForm');
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const name = document.getElementById('laptopName').value;
+            
+            const brand = document.getElementById('laptopBrand').value;
+            const model = document.getElementById('laptopModel').value;
+            const ram = document.getElementById('laptopRam').value;
+            const gen = document.getElementById('laptopGen').value;
+            const storage = document.getElementById('laptopStorage').value;
             const price = document.getElementById('laptopPrice').value;
-            const specs = document.getElementById('laptopSpecs').value;
+
+            // तीनों इमेज लिंक्स को इकट्ठा करना
+            const img1 = document.getElementById('laptopImage1').value;
+            const img2 = document.getElementById('laptopImage2').value || "";
+            const img3 = document.getElementById('laptopImage3').value || "";
+
+            // खाली लिंक्स को हटाकर सिर्फ वैलिड लिंक्स की एक एरे (Array) बनाना
+            const imagesArray = [img1, img2, img3].filter(url => url.trim() !== "");
 
             try {
                 await addDoc(collection(db, "laptops"), {
-                    name: name,
+                    name: `${brand} ${model}`,
                     price: price,
-                    specs: specs,
+                    specs: `${gen} | ${ram} | ${storage}`,
+                    images: imagesArray, // डेटाबेस में एरे के रूप में जाएगा
                     date: new Date()
                 });
                 alert("सफलतापूर्वक लिस्ट हो गया!");

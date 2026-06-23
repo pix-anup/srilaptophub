@@ -6,24 +6,114 @@
     <title>श्री लैपटॉप हब - प्रीमियम लैपटॉप डील्स</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <style>
+        .card-swiper { width: 100%; height: 12rem; }
+        .card-swiper .swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
+        .swiper-pagination-bullet-active { background: #1d4ed8 !important; }
+        .featured-swiper { width: 100%; height: 24rem; border-radius: 1rem; overflow: hidden; }
+        .featured-swiper .swiper-slide { background: #fff; display: flex; flex-direction: column; }
+    </style>
 </head>
 <body class="bg-gray-100 font-sans">
 
     <header class="bg-gradient-to-r from-blue-800 to-indigo-900 text-white p-6 shadow-xl text-center">
         <div class="flex flex-col items-center justify-center gap-2">
-            <img src="https://cdn-icons-png.flaticon.com/512/428/428001.png" alt="Logo" class="h-16 w-16 object-contain bg-white p-2 rounded-full shadow-md">
+            <img src="https://i.postimg.cc/d3NZF824/IMG-20260623-WA0005.jpg" alt="Logo" class="h-16 w-16 object-contain bg-white p-2 rounded-full shadow-md">
             <h1 class="text-4xl font-extrabold tracking-wide mt-2">💻 Sri Laptop Hub</h1>
-            <p class="text-xs md:text-sm tracking-wider opacity-80 uppercase font-medium">आपका अपना भरोसेमंद लैपटॉप स्टोर</p>
+            <p class="text-xs md:text-sm tracking-wider opacity-80 uppercase font-medium">आपका अपना भरोसेमंद लैपटॉप store</p>
         </div>
     </header>
 
-    <main class="container mx-auto p-6 max-w-6xl">
-        <h2 class="text-2xl font-bold mb-6 text-gray-800 border-b-2 pb-2 border-blue-500 inline-block">हमारे उपलब्ध लैपटॉप्स</h2>
-        
+    <section class="container mx-auto p-6 max-w-6xl mt-4">
+        <h2 class="text-xl font-bold mb-4 text-orange-600 uppercase tracking-wider flex items-center gap-2">
+            <i class="fa-solid fa-fire animate-bounce"></i> आज की बेस्ट डील्स (Auto-Sliding)
+        </h2>
+        <div class="swiper featuredSwiper featured-swiper shadow-xl border border-gray-200">
+            <div id="featuredSliderList" class="swiper-wrapper">
+                <div class="swiper-slide flex items-center justify-center p-10 text-gray-500">डील्स लोड हो रही हैं...</div>
+            </div>
+            <div class="swiper-button-next text-blue-700"></div>
+            <div class="swiper-button-prev text-blue-700"></div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </section>
+
+    <section class="container mx-auto p-6 max-w-6xl pt-0">
+        <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3"><i class="fa-solid fa-filter text-blue-600"></i> पसंदीदा ब्रांड चुनें:</h3>
+        <div class="flex flex-wrap gap-3">
+            <button onclick="filterByBrand('All')" id="btn-All" class="brand-btn bg-blue-700 text-white px-5 py-2 rounded-xl font-bold text-sm shadow transition duration-200">सब दिखाएं (All)</button>
+            <button onclick="filterByBrand('HP')" id="btn-HP" class="brand-btn bg-white text-gray-700 hover:bg-gray-50 px-5 py-2 rounded-xl font-bold text-sm shadow transition duration-200 border border-gray-200">HP</button>
+            <button onclick="filterByBrand('Dell')" id="btn-Dell" class="brand-btn bg-white text-gray-700 hover:bg-gray-50 px-5 py-2 rounded-xl font-bold text-sm shadow transition duration-200 border border-gray-200">Dell</button>
+            <button onclick="filterByBrand('Lenovo')" id="btn-Lenovo" class="brand-btn bg-white text-gray-700 hover:bg-gray-50 px-5 py-2 rounded-xl font-bold text-sm shadow transition duration-200 border border-gray-200">Lenovo</button>
+            <button onclick="filterByBrand('Asus')" id="btn-Asus" class="brand-btn bg-white text-gray-700 hover:bg-gray-50 px-5 py-2 rounded-xl font-bold text-sm shadow transition duration-200 border border-gray-200">Asus</button>
+            <button onclick="filterByBrand('Apple')" id="btn-Apple" class="brand-btn bg-white text-gray-700 hover:bg-gray-50 px-5 py-2 rounded-xl font-bold text-sm shadow transition duration-200 border border-gray-200">Apple</button>
+        </div>
+    </section>
+
+    <main class="container mx-auto p-6 max-w-6xl pt-0">
+        <h2 class="text-2xl font-bold mb-6 text-gray-800 border-b-2 pb-2 border-blue-500 inline-block">सभी उपलब्ध लैपटॉप्स</h2>
         <div id="customerLaptopList" class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-4">
-            <p class="text-gray-500 col-span-3 text-center py-10 text-lg">स्टॉक चेक किया जा रहा है, कृपया प्रतीक्षा करें...</p>
+            <p class="text-gray-500 col-span-3 text-center py-10 text-lg">स्टॉक चेक किया जा रहा है...</p>
         </div>
     </main>
+
+    <section class="bg-gray-900 text-white mt-16 border-t-4 border-blue-700">
+        <div class="container mx-auto p-8 max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-10">
+            
+            <div class="flex flex-col justify-center">
+                <h2 class="text-3xl font-extrabold text-blue-400 mb-2">📞 हमसे संपर्क करें</h2>
+                <p class="text-gray-400 text-sm mb-6">लैपटॉप खरीदने या किसी भी प्रकार की तकनीकी सहायता के लिए आप हमें कभी भी कॉल, व्हाट्सएप या ईमेल कर सकते हैं।</p>
+                
+                <div class="space-y-4">
+                    <a href="tel:+919999999999" class="flex items-center gap-4 bg-gray-800 p-4 rounded-xl hover:bg-gray-700 transition group border border-gray-700">
+                        <i class="fa-solid fa-phone text-2xl text-green-500 group-hover:scale-110 transition"></i>
+                        <div>
+                            <p class="text-xs text-gray-400 font-medium uppercase tracking-wider">कॉल करें (Call Us)</p>
+                            <p class="text-lg font-bold text-white">+91 9939579777</p>
+                        </div>
+                    </a>
+
+                    <a href="mailto:support@srilaptophub.com" class="flex items-center gap-4 bg-gray-800 p-4 rounded-xl hover:bg-gray-700 transition group border border-gray-700">
+                        <i class="fa-solid fa-envelope text-2xl text-blue-400 group-hover:scale-110 transition"></i>
+                        <div>
+                            <p class="text-xs text-gray-400 font-medium uppercase tracking-wider">ईमेल भेजें (Email Us)</p>
+                            <p class="text-lg font-bold text-white">Srilaptophub@gmail.com</p>
+                        </div>
+                    </a>
+
+                    <div class="flex items-center gap-4 bg-gray-800 p-4 rounded-xl border border-gray-700">
+                        <i class="fa-solid fa-location-dot text-2xl text-red-500"></i>
+                        <div>
+                            <p class="text-xs text-gray-400 font-medium uppercase tracking-wider">दुकान का पता (Our Store)</p>
+                            <p class="text-base font-semibold text-white">श्री लैपटॉप हब,भगवान बाजार ,छपरा , बिहार - 841301</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-xl font-bold mb-4 text-gray-300 flex items-center gap-2"><i class="fa-solid fa-map-location-dot text-blue-400"></i> हमारा लाइव लोकेशन:</h3>
+                <div class="rounded-2xl overflow-hidden shadow-2xl border-2 border-gray-700 h-80 bg-gray-800">
+                    <iframe 
+                        src="https://www.google.com/maps/search/bhagwan+bazar+chapra+sri+laptophub/@25.7829513,84.7217297,19.51z?entry=ttu&g_ep=EgoyMDI2MDYxNi4wIKXMDSoASAFQAw%3D%3D" 
+                        class="w-full h-full border-0" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+
+        </div>
+        
+        <div class="bg-gray-950 p-4 text-center text-xs text-gray-500 border-t border-gray-800 mt-6">
+            © 2026 Sri Laptop Hub. सर्वाधिकार सुरक्षित।
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -41,40 +131,102 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        const customerListContainer = document.getElementById('customerLaptopList');
         
-        // 📞 अपना WhatsApp नंबर यहाँ बदलें
-        const myWhatsAppNumber = "919939579777"; 
+        const customerListContainer = document.getElementById('customerLaptopList');
+        const featuredSliderContainer = document.getElementById('featuredSliderList');
+        const myWhatsAppNumber = "919939579777"; // 📞 अपना WhatsApp नंबर यहाँ बदलें
+
+        let allLaptops = [];
+        let currentSelectedBrand = "All";
+        let mainFeaturedSwiperInstance = null;
 
         onSnapshot(collection(db, "laptops"), (snapshot) => {
-            customerListContainer.innerHTML = "";
-            
-            if(snapshot.size === 0) {
-                customerListContainer.innerHTML = `
-                    <div class="col-span-3 text-center py-12 bg-white rounded-xl shadow p-6 border">
-                        <p class="text-xl text-gray-600 font-semibold">😔 क्षमा करें! अभी सारा स्टॉक बिक चुका है।</p>
+            allLaptops = [];
+            snapshot.forEach((docData) => {
+                allLaptops.push(docData.data());
+            });
+            renderFeaturedSlider();
+            renderLaptops();
+        });
+
+        window.renderFeaturedSlider = () => {
+            featuredSliderContainer.innerHTML = "";
+            if(allLaptops.length === 0) {
+                featuredSliderContainer.innerHTML = `<div class="swiper-slide flex items-center justify-center p-10 text-gray-500 font-semibold">😔 अभी दुकान में कोई स्टॉक नहीं है।</div>`;
+                return;
+            }
+            allLaptops.forEach((laptop) => {
+                const mainImage = laptop.images ? laptop.images[0] : (laptop.image || "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=500");
+                const whatsappText = encodeURIComponent(`नमस्ते! मुझे आपकी बेस्ट डील वाले इस लैपटॉप को खरीदना है:\n\n💻 ${laptop.name}\n💰 कीमत: ₹${laptop.price}\n⚙️ स्पेक्स: ${laptop.specs}`);
+                const whatsappUrl = `https://wa.me/${myWhatsAppNumber}?text=${whatsappText}`;
+
+                featuredSliderContainer.innerHTML += `
+                    <div class="swiper-slide flex flex-col md:flex-row h-full">
+                        <div class="w-full md:w-1/2 h-48 md:h-full bg-gray-100">
+                            <img src="${mainImage}" class="w-full h-full object-cover" alt="${laptop.name}">
+                        </div>
+                        <div class="w-full md:w-1/2 p-6 md:p-8 flex flex-col justify-between bg-white h-full">
+                            <div>
+                                <span class="bg-orange-100 text-orange-800 text-xs font-bold px-3 py-1 rounded-full"><i class="fa-solid fa-bolt mr-1"></i> सुपर डील</span>
+                                <h2 class="text-2xl md:text-3xl font-black text-gray-900 mt-3">${laptop.name}</h2>
+                                <p class="text-sm md:text-base text-blue-700 font-bold mt-2 bg-blue-50 p-3 rounded-xl border border-blue-100"><i class="fa-solid fa-microprocessor mr-2"></i>जनरेशन/स्पेक्ट्स: ${laptop.specs}</p>
+                            </div>
+                            <div class="flex items-center justify-between border-t pt-4 mt-4 border-gray-100">
+                                <span class="text-3xl font-black text-green-600">₹${Number(laptop.price).toLocaleString('en-IN')}</span>
+                                <a href="${whatsappUrl}" target="_blank" class="bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-xl font-bold text-sm flex items-center gap-2 shadow-lg">
+                                    <i class="fa-brands fa-whatsapp text-lg"></i> अभी बुक करें
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 `;
+            });
+
+            if (mainFeaturedSwiperInstance) mainFeaturedSwiperInstance.destroy();
+            mainFeaturedSwiperInstance = new Swiper('.featuredSwiper', {
+                loop: allLaptops.length > 1,
+                autoplay: allLaptops.length > 1 ? { delay: 4000, disableOnInteraction: false } : false,
+                pagination: { el: '.swiper-pagination', clickable: true },
+                navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+            });
+        };
+
+        window.renderLaptops = () => {
+            customerListContainer.innerHTML = "";
+            let filteredList = allLaptops;
+            if (currentSelectedBrand !== "All") {
+                filteredList = allLaptops.filter(laptop => {
+                    const brandOfLaptop = laptop.name.split(" ")[0];
+                    return brandOfLaptop.toLowerCase() === currentSelectedBrand.toLowerCase();
+                });
+            }
+
+            if(filteredList.length === 0) {
+                customerListContainer.innerHTML = `<div class="col-span-3 text-center py-12 bg-white rounded-xl shadow p-6 border"><p class="text-xl text-gray-600 font-semibold">😔 इस ब्रांड में कोई लैपटॉप नहीं है।</p></div>`;
                 return;
             }
 
-            snapshot.forEach((docData) => {
-                const laptop = docData.data();
-                
-                // 🔍 इंटरनेट से ब्रांड के नाम के हिसाब से ऑटोमैटिक इमेज ढूंढने का लॉजिक
-                // अगर नाम में HP है तो HP Laptop की फोटो आएगी, Dell है तो Dell Laptop की
-                const firstWord = laptop.name.split(" ")[0] || "laptop";
-                const autoImageUrl = `https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=500&q=80&sig=${Math.random()}`; 
-                // नोट: बेहतर रिजल्ट के लिए Unsplash की कीवर्ड इमेज यूज़ कर रहे हैं:
-                const keywordImageUrl = `https://loremflickr.com/500/350/${firstWord},laptop/all`;
+            let cardIndex = 0;
+            filteredList.forEach((laptop) => {
+                cardIndex++;
+                const imagesList = laptop.images || [laptop.image || "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=500"];
+                let swiperSlidesHtml = "";
+                imagesList.forEach(url => {
+                    swiperSlidesHtml += `<div class="swiper-slide"><img src="${url}"></div>`;
+                });
 
-                const whatsappText = encodeURIComponent(`नमस्ते Sri Laptop Hub! मुझे इसके बारे में जानना है:\n\n💻 लैपटॉप: ${laptop.name}\n💰 कीमत: ₹${laptop.price}\n⚙️ स्पेक्स: ${laptop.specs}`);
+                const whatsappText = encodeURIComponent(`नमस्ते! मुझे इसके बारे में जानना है:\n\n💻 लैपटॉप: ${laptop.name}\n💰 कीमत: ₹${laptop.price}\n⚙️ स्पेक्स: ${laptop.specs}`);
                 const whatsappUrl = `https://wa.me/${myWhatsAppNumber}?text=${whatsappText}`;
 
-                const cardHtml = `
+                customerListContainer.innerHTML += `
                     <div class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-2xl transition duration-300 border border-gray-100 flex flex-col justify-between">
                         <div>
-                            <img class="h-48 w-full object-cover bg-gray-100" src="${keywordImageUrl}" alt="${laptop.name}" onerror="this.src='https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=500'">
+                            <div class="swiper card-swiper mySwiper-${cardIndex}">
+                                <div class="swiper-wrapper">
+                                    ${swiperSlidesHtml}
+                                </div>
+                                <div class="swiper-pagination"></div>
+                            </div>
                             <div class="p-5">
                                 <span class="bg-green-100 text-green-800 text-xs font-bold px-2.5 py-1 rounded-full"><i class="fa-solid fa-circle text-green-500 mr-1 animate-pulse"></i> स्टॉक में है</span>
                                 <h3 class="block mt-3 text-xl font-bold text-gray-900">${laptop.name}</h3>
@@ -91,10 +243,28 @@
                         </div>
                     </div>
                 `;
-                customerListContainer.innerHTML += cardHtml;
+
+                setTimeout(() => {
+                    new Swiper(`.mySwiper-${cardIndex}`, {
+                        loop: imagesList.length > 1,
+                        pagination: { el: '.swiper-pagination', clickable: true },
+                        autoplay: imagesList.length > 1 ? { delay: 3000, disableOnInteraction: false } : false,
+                    });
+                }, 100);
             });
-        });
+        };
+
+        window.filterByBrand = (brandName) => {
+            currentSelectedBrand = brandName;
+            document.querySelectorAll('.brand-btn').forEach(btn => {
+                btn.className = "brand-btn bg-white text-gray-700 hover:bg-gray-50 px-5 py-2 rounded-xl font-bold text-sm shadow transition duration-200 border border-gray-200";
+            });
+            const activeBtn = document.getElementById(`btn-${brandName}`);
+            if(activeBtn) {
+                activeBtn.className = "brand-btn bg-blue-700 text-white px-5 py-2 rounded-xl font-bold text-sm shadow transition duration-200";
+            }
+            renderLaptops();
+        };
     </script>
 </body>
 </html>
-
