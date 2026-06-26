@@ -15,7 +15,7 @@
         .featured-swiper { width: 100%; height: 24rem; border-radius: 1rem; overflow: hidden; }
         .featured-swiper .swiper-slide { background: #fff; display: flex; flex-direction: column; }
     </style>
-</head>
+
 <body class="bg-gray-100 font-sans">
 
     <header class="bg-gradient-to-r from-blue-800 to-indigo-900 text-white p-6 shadow-xl text-center">
@@ -71,7 +71,7 @@
                         <i class="fa-solid fa-phone text-2xl text-green-500 group-hover:scale-110 transition"></i>
                         <div>
                             <p class="text-xs text-gray-400 font-medium uppercase tracking-wider">कॉल करें (Call Us)</p>
-                            <p class="text-lg font-bold text-white">+91 9939579777</p>
+                            <p class="text-lg font-bold text-white">+91 9939579777 +91 8789386167</p>
                         </div>
                     </a>
 
@@ -266,5 +266,53 @@
             renderLaptops();
         };
     </script>
+    <!-- ================================================================= -->
+<!-- 🏢 बिल्डिंग स्टाइल नाम स्क्रॉल बॉक्स (HTML, CSS और JS एक साथ) -->
+<!-- ================================================================= -->
+
+<div class="fixed right-3 top-1/2 -translate-y-1/2 z-50 bg-gray-950 border-2 border-yellow-500 rounded-lg shadow-2xl overflow-hidden flex flex-col justify-between items-center" style="width: 35px; height: 220px; box-shadow: 0 0 15px rgba(244, 208, 63, 0.3);">
+    
+    <!-- ऊपर का छोटा तीर (बिल्डिंग की छत) -->
+    <div class="w-full bg-gray-900 text-center py-1 border-b border-gray-800">
+        <i class="fa-solid fa-caret-up text-xs text-yellow-400 animate-bounce"></i>
+    </div>
+
+    <!-- 🛗 लिफ्ट एरिया (जहाँ नाम नीचे से ऊपर जाएगा) -->
+    <div class="relative w-full flex-grow bg-gray-950 overflow-hidden">
+        <!-- यह वो हिस्सा है जो पेज स्क्रॉल होने पर नीचे से ऊपर खिसकेगा -->
+        <div id="elevatorName" class="absolute w-full flex flex-col items-center justify-center font-black tracking-widest text-xs text-yellow-400 uppercase" style="writing-mode: vertical-lr; bottom: -150px; left: 0; right: 0; transition: bottom 0.1s ease-out; gap: 2px;">
+            <span class="drop-shadow-[0_0_5px_rgba(244,208,63,0.6)]">SRI LAPTOP HUB</span>
+        </div>
+    </div>
+
+    <!-- नीचे का छोटा तीर (बिल्डिंग का बेस) -->
+    <div class="w-full bg-gray-900 text-center py-1 border-t border-gray-800">
+        <i class="fa-solid fa-caret-down text-xs text-gray-500"></i>
+    </div>
+</div>
+
+<!-- स्क्रॉल को कंट्रोल करने वाली जावास्क्रिप्ट लॉजिक -->
+<script>
+    window.addEventListener('scroll', () => {
+        const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        
+        // पेज कितना प्रतिशत स्क्रॉल हुआ (0 से 100)
+        const scrolledPercentage = (winScroll / height);
+        
+        const elevatorName = document.getElementById("elevatorName");
+        if (elevatorName) {
+            // शुरुआत में नाम नीचे छुपा रहेगा (-130px), और पूरा स्क्रॉल होने पर ऊपर (25px) तक आ जाएगा
+            const startPosition = -130; 
+            const endPosition = 25; 
+            
+            // लाइव पोजीशन की गणना
+            const currentPosition = startPosition + (scrolledPercentage * (endPosition - startPosition));
+            
+            // नाम की पोजीशन को अपडेट करना
+            elevatorName.style.bottom = currentPosition + "px";
+        }
+    });
+</script>
 </body>
 </html>
